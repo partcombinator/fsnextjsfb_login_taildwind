@@ -4,20 +4,20 @@ import Layout from '../src/components/Layout';
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { toast } from 'react-toastify';
-import { auth } from '../src/firebase/firebaseConfig';
-import { signInWithEmailAndPassword } from "firebase/auth";
 import { useRouter } from 'next/router'
+import { useAuth } from '../src/context/AuthContext'
 
 export default function login() {
     const [isLoading, setIsLoading] = React.useState(false);
     const router = useRouter();
+    const { user, login } = useAuth()
 
     const formik = useFormik({
         initialValues: initialValues(),
         validationSchema: Yup.object(validationSchema()),
         onSubmit: async (formData, { resetForm }) => {
           setIsLoading(true);
-            signInWithEmailAndPassword(auth, formData.userEmail, formData.userPassword)
+            login(formData.userEmail, formData.userPassword)
               .then((userCredential) => {
                 // Signed in
                 const user = userCredential.user;
@@ -25,7 +25,7 @@ export default function login() {
                 toast.success("User login successfully");
                 resetForm({ values: "" });
                 setIsLoading(false);
-                router.push("/login");
+                router.push("/dashboard");
               })
               .catch((error) => {
                 const errorCode = error.code;
@@ -64,7 +64,7 @@ export default function login() {
 
 
                 <button type="submit" className='button'>{ isLoading ? 'Loading' : 'Login' }</button>
-                <Link href='/register'>Register</Link><Link href='/'>Home</Link>
+                <Link href='/signup'>Register</Link><Link href='/'>Home</Link>
             </form>
        </Layout>     
     </>

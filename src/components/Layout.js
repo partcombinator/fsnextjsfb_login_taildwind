@@ -4,7 +4,9 @@ import NavBar from './NavBar';
 import Footer from './Footer';
 import { ToastContainer } from 'react-toastify';
 
+
 export default function Layout({children}) {
+
   return (
     <>
         <Head>

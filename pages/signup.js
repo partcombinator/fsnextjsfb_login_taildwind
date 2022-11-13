@@ -4,13 +4,13 @@ import Layout from '../src/components/Layout';
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { toast } from 'react-toastify';
-import { auth } from '../src/firebase/firebaseConfig';
-import { createUserWithEmailAndPassword } from "firebase/auth";
 import { useRouter } from 'next/router'
+import { useAuth } from '../src/context/AuthContext'
 
 export default function register() {
     const [isLoading, setIsLoading] = React.useState(false);
     const router = useRouter();
+    const { user, signup } = useAuth()
 
     const formik = useFormik({
         initialValues: initialValues(),
@@ -21,7 +21,7 @@ export default function register() {
             console.log("Passwords don't match");
             toast.error("Passwords don't match");
           } else {
-            createUserWithEmailAndPassword(auth, formData.userEmail, formData.userPassword)
+            signup(formData.userEmail, formData.userPassword)
               .then((userCredential) => {
                 // Signed in
                 const user = userCredential.user;
