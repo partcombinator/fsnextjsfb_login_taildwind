@@ -2,7 +2,7 @@ import React from 'react'
 import Head from 'next/head'
 import NavBar from './NavBar';
 import Footer from './Footer';
-import { ToastContainer, toast } from 'react-toastify';
+import { ToastContainer } from 'react-toastify';
 
 export default function Layout({children}) {
   return (
@@ -16,7 +16,6 @@ export default function Layout({children}) {
         {children}
         <Footer/>
         <ToastContainer />
-       
     </>
   );
 }
